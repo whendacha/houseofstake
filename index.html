@@ -20,9 +20,12 @@
   <div class="counter" id="timePassed"></div>
   <div class="counter" id="moneySpent"></div>
 
+  <h3>Live NEAR Token Price Chart</h3>
+  <iframe src="https://www.coingecko.com/en/coins/near/embed" width="100%" height="400" frameborder="0"></iframe>
+
   <script>
     function updateCounter() {
-      const startDate = new Date('2024-07-01T00:00:00Z');
+      const startDate = new Date('2024-04-01T00:00:00Z');
       const jan2025 = new Date('2025-01-01T00:00:00Z');
       const may2025 = new Date('2025-05-01T00:00:00Z');
       const now = new Date();
@@ -33,9 +36,10 @@
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
+      const milliseconds = now.getMilliseconds();
 
       document.getElementById('timePassed').innerText = 
-        `⏳ Time Passed Since the NEAR Foundation announced New Governance but not yet launched: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        `⏳ Time Passed Since the NEAR Foundation announced New Governance but not yet launched: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds, ${milliseconds} ms`;
 
       // Money spent
       const monthMS = 1000 * 60 * 60 * 24 * 30.44; // avg month in ms
@@ -44,17 +48,14 @@
       const monthsMay2025 = now > may2025 ? (now - may2025) / monthMS : 0;
 
       const total = (monthsMain * 22000) + (monthsJan2025 * 25000) + (monthsMay2025 * 15000);
-
-      // Add thousands separator
       const totalFormatted = total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
       document.getElementById('moneySpent').innerText = 
-        `💸 Money Already Burned While Governance Is Still Not Launched: $${totalFormatted} USD 
-        (not including Cannes trips, Gauntlet invoices, or other ‘trusted’ contractors)`;
+        `💸 Money Already Burned: $${totalFormatted} USD (not including Cannes trips, flights, Gauntlet invoices)`;
     }
 
     updateCounter();
-    setInterval(updateCounter, 1000);
+    setInterval(updateCounter, 50);
   </script>
 </body>
 </html>
