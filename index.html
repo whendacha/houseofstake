@@ -22,7 +22,7 @@
 
   <script>
     function updateCounter() {
-      const startDate = new Date('2024-04-01T00:00:00Z');
+      const startDate = new Date('2024-07-01T00:00:00Z');
       const jan2025 = new Date('2025-01-01T00:00:00Z');
       const may2025 = new Date('2025-05-01T00:00:00Z');
       const now = new Date();
@@ -38,18 +38,19 @@
         `⏳ Time Passed Since the NEAR Foundation announced New Governance but not yet launched: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
 
       // Money spent
-      const monthMS = 1000 * 60 * 60 * 24 * 30.44; // average month in ms
+      const monthMS = 1000 * 60 * 60 * 24 * 30.44; // avg month in ms
       const monthsMain = (now - startDate) / monthMS;
       const monthsJan2025 = now > jan2025 ? (now - jan2025) / monthMS : 0;
       const monthsMay2025 = now > may2025 ? (now - may2025) / monthMS : 0;
 
-      const total = (monthsMain * 66000) + (monthsJan2025 * 25000) + (monthsMay2025 * 15000);
+      const total = (monthsMain * 22000) + (monthsJan2025 * 25000) + (monthsMay2025 * 15000);
 
       // Add thousands separator
       const totalFormatted = total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
       document.getElementById('moneySpent').innerText = 
-        `💸 Money Already Burned While Governance Is Still Not Launched: $${totalFormatted} USD`;
+        `💸 Money Already Burned While Governance Is Still Not Launched: $${totalFormatted} USD 
+        (not including Cannes trips, Gauntlet invoices, or other ‘trusted’ contractors)`;
     }
 
     updateCounter();
