@@ -103,9 +103,6 @@
   <div id="points">Points: 0</div>
   <p style="font-size: 1em; color: #777;">🎮 Rules: Click on the falling words to earn points — and get nothing!</p>
 
-  <!-- Sound -->
-  <audio id="tada-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_b82f7a7e40.mp3" preload="auto"></audio>
-
   <!-- Bee -->
   <div class="bee" id="bee">🐝 Gauntlet</div>
 
@@ -145,13 +142,9 @@
     const colors = ["#e74c3c", "#2ecc71", "#3498db", "#f39c12", "#9b59b6"];
 
     let points = 0;
-    const tada = document.getElementById('tada-sound');
 
     function updatePoints() {
       document.getElementById('points').innerText = `Points: ${points}`;
-      if (points === 10) {
-        tada.play();
-      }
     }
 
     function createFlyer() {
@@ -191,6 +184,7 @@
     const bee = document.getElementById('bee');
     let beeX = 0;
     let beeDir = 1;
+
     function moveBee() {
       beeX += 2 * beeDir;
       if (beeX > window.innerWidth - 120 || beeX < 0) {
@@ -204,13 +198,19 @@
     bee.onclick = () => {
       bee.style.transform = 'translateX(200%) rotate(720deg)';
       bee.style.opacity = '0';
+      bee.style.pointerEvents = 'none';
       setTimeout(() => {
         bee.style.transform = '';
         bee.style.opacity = '1';
-      }, 10000); // Вернётся через 10 секунд
+        bee.style.pointerEvents = 'auto';
+      }, 10000);
     };
 
     const toggle = document.getElementById('theme-toggle');
     toggle.onclick = () => {
       document.body.classList.toggle('dark');
       toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    };
+  </script>
+</body>
+</html>
