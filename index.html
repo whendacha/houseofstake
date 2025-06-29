@@ -19,11 +19,11 @@
     .flyer {
       position: absolute;
       top: -50px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
       background: #f5f5f5;
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 4px 8px;
+      border-radius: 5px;
       cursor: pointer;
       user-select: none;
       box-shadow: 0 0 5px rgba(0,0,0,0.3);
@@ -35,7 +35,7 @@
   <div class="counter" id="timePassed"></div>
   <div class="counter" id="moneySpent"></div>
 
-  <h3>Live NEAR Token Price Chart</h3>
+  <h3>Live NEAR Token Price Chart (From April 1, 2024)</h3>
   <!-- TradingView Widget BEGIN -->
   <div class="tradingview-widget-container">
     <div id="tradingview_near"></div>
@@ -53,13 +53,14 @@
         "locale": "en",
         "toolbar_bg": "#f1f3f6",
         "enable_publishing": false,
-        "allow_symbol_change": true,
+        "allow_symbol_change": false,
         "container_id": "tradingview_near"
       }
     );
     </script>
   </div>
   <!-- TradingView Widget END -->
+  <p style="font-size: 0.9em; color: #555;">📅 Tip: Drag the chart left to see price history back to April 1, 2024.</p>
 
   <script>
     function updateCounter() {
@@ -68,7 +69,6 @@
       const may2025 = new Date('2025-05-01T00:00:00Z');
       const now = new Date();
 
-      // Time diff
       const diff = now - startDate;
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -78,7 +78,6 @@
       document.getElementById('timePassed').innerText = 
         `⏳ Time Passed Since the NEAR Foundation announced New Governance but not yet launched: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
 
-      // Money spent
       const monthMS = 1000 * 60 * 60 * 24 * 30.44;
       const monthsMain = (now - startDate) / monthMS;
       const monthsJan2025 = now > jan2025 ? (now - jan2025) / monthMS : 0;
@@ -94,17 +93,24 @@
     updateCounter();
     setInterval(updateCounter, 1000);
 
-    // Flying Cannes
+    // Flying words with random colors
+    const words = ["Cannes", "Gauntlet", "Roadmap", "Good Progress", "Launching Soon"];
+    const colors = ["#e74c3c", "#2ecc71", "#3498db", "#f39c12", "#9b59b6"]; // red, green, blue, orange, purple
+
     function createFlyer() {
       const flyer = document.createElement('div');
       flyer.className = 'flyer';
-      flyer.innerText = 'Cannes';
-      flyer.style.left = Math.random() * (window.innerWidth - 60) + 'px';
+      flyer.innerText = words[Math.floor(Math.random() * words.length)];
+      flyer.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+
+      // Assign random color
+      flyer.style.background = colors[Math.floor(Math.random() * colors.length)];
+      flyer.style.color = "#fff";
 
       document.body.appendChild(flyer);
 
       let top = -50;
-      const speed = 0.3 + Math.random() * 0.5; // медленнее
+      const speed = 0.3 + Math.random() * 0.5;
 
       const move = setInterval(() => {
         top += speed;
@@ -121,7 +127,7 @@
       };
     }
 
-    setInterval(createFlyer, 2000); // каждые 2 сек новое Cannes
+    setInterval(createFlyer, 1500);
   </script>
 </body>
 </html>
