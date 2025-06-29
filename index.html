@@ -28,6 +28,11 @@
       user-select: none;
       box-shadow: 0 0 5px rgba(0,0,0,0.3);
     }
+    #points {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -62,6 +67,9 @@
   <!-- TradingView Widget END -->
   <p style="font-size: 0.9em; color: #555;">📅 Tip: Drag the chart left to see price history back to April 1, 2024.</p>
 
+  <div id="points">Points: 0</div>
+  <p style="font-size: 1em; color: #777;">🥳 Get 100 points and receive absolutely nothing!</p>
+
   <script>
     function updateCounter() {
       const startDate = new Date('2024-04-01T00:00:00Z');
@@ -93,9 +101,14 @@
     updateCounter();
     setInterval(updateCounter, 1000);
 
-    // Flying words with random colors
     const words = ["Cannes", "Gauntlet", "Roadmap", "Good Progress", "Launching Soon"];
     const colors = ["#e74c3c", "#2ecc71", "#3498db", "#f39c12", "#9b59b6"]; // red, green, blue, orange, purple
+
+    let points = 0;
+
+    function updatePoints() {
+      document.getElementById('points').innerText = `Points: ${points}`;
+    }
 
     function createFlyer() {
       const flyer = document.createElement('div');
@@ -103,7 +116,6 @@
       flyer.innerText = words[Math.floor(Math.random() * words.length)];
       flyer.style.left = Math.random() * (window.innerWidth - 100) + 'px';
 
-      // Assign random color
       flyer.style.background = colors[Math.floor(Math.random() * colors.length)];
       flyer.style.color = "#fff";
 
@@ -122,11 +134,14 @@
       }, 20);
 
       flyer.onclick = () => {
+        points += 1;
+        updatePoints();
         flyer.remove();
         clearInterval(move);
       };
     }
 
+    updatePoints();
     setInterval(createFlyer, 1500);
   </script>
 </body>
