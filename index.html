@@ -8,10 +8,20 @@
       font-family: Arial, sans-serif;
       color: #333;
       line-height: 1.5;
+      max-width: 800px;
+      margin: 20px auto;
+      overflow: hidden;
     }
     .counter {
       font-size: 1.2em;
       margin: 10px 0;
+    }
+    .flyer {
+      position: absolute;
+      top: -50px;
+      font-size: 30px;
+      cursor: pointer;
+      user-select: none;
     }
   </style>
 </head>
@@ -21,7 +31,30 @@
   <div class="counter" id="moneySpent"></div>
 
   <h3>Live NEAR Token Price Chart</h3>
-  <iframe src="https://www.coingecko.com/en/coins/near/embed" width="100%" height="400" frameborder="0"></iframe>
+  <!-- TradingView Widget BEGIN -->
+  <div class="tradingview-widget-container">
+    <div id="tradingview_near"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+    new TradingView.widget(
+      {
+        "width": "100%",
+        "height": 400,
+        "symbol": "BINANCE:NEARUSDT",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "light",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tradingview_near"
+      }
+    );
+    </script>
+  </div>
+  <!-- TradingView Widget END -->
 
   <script>
     function updateCounter() {
@@ -36,13 +69,12 @@
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
-      const milliseconds = now.getMilliseconds();
 
       document.getElementById('timePassed').innerText = 
-        `⏳ Time Passed Since the NEAR Foundation announced New Governance but not yet launched: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds, ${milliseconds} ms`;
+        `⏳ Time Passed Since the NEAR Foundation announced New Governance but not yet launched: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
 
       // Money spent
-      const monthMS = 1000 * 60 * 60 * 24 * 30.44; // avg month in ms
+      const monthMS = 1000 * 60 * 60 * 24 * 30.44;
       const monthsMain = (now - startDate) / monthMS;
       const monthsJan2025 = now > jan2025 ? (now - jan2025) / monthMS : 0;
       const monthsMay2025 = now > may2025 ? (now - may2025) / monthMS : 0;
@@ -55,7 +87,36 @@
     }
 
     updateCounter();
-    setInterval(updateCounter, 50);
+    setInterval(updateCounter, 1000);
+
+    // Flying Cannes
+    function createFlyer() {
+      const flyer = document.createElement('div');
+      flyer.className = 'flyer';
+      flyer.innerText = '✈️'; // символ полёта/перелёта
+      flyer.style.left = Math.random() * window.innerWidth + 'px';
+
+      document.body.appendChild(flyer);
+
+      let top = -50;
+      const speed = 1 + Math.random() * 2;
+
+      const move = setInterval(() => {
+        top += speed;
+        flyer.style.top = top + 'px';
+        if (top > window.innerHeight) {
+          flyer.remove();
+          clearInterval(move);
+        }
+      }, 20);
+
+      flyer.onclick = () => {
+        flyer.remove();
+        clearInterval(move);
+      };
+    }
+
+    setInterval(createFlyer, 1500); // каждые 1.5 сек новое ✈️
   </script>
 </body>
 </html>
