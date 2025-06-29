@@ -67,8 +67,11 @@
   <!-- TradingView Widget END -->
 
   <div id="points">Points: 0</div>
-  <p style="font-size: 1em; color: #777;">🥳 Get 100 points and receive absolutely nothing!</p>
+  <p style="font-size: 1em; color: #777;">🥳 Get 10 points and you’ll hear a ta-da! (and still get absolutely nothing!)</p>
   <p style="font-size: 1em; color: #777;">🏧 Fun fact: This page works like a DAO ATM — money goes out, but you can't withdraw anything back! 💸</p>
+
+  <!-- Sound -->
+  <audio id="tada-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_b82f7a7e40.mp3" preload="auto"></audio>
 
   <script>
     function updateCounter() {
@@ -95,7 +98,7 @@
       const totalFormatted = total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
       document.getElementById('moneySpent').innerText = 
-        `💸 Money Already Burned: $${totalFormatted} USD (not including Cannes trips, flights, Gauntlet invoices)`;
+        `💸 Approximate Money Already Burned: $${totalFormatted} USD (not including Cannes trips, flights, Gauntlet invoices)`;
     }
 
     updateCounter();
@@ -105,9 +108,13 @@
     const colors = ["#e74c3c", "#2ecc71", "#3498db", "#f39c12", "#9b59b6"];
 
     let points = 0;
+    const tada = document.getElementById('tada-sound');
 
     function updatePoints() {
       document.getElementById('points').innerText = `Points: ${points}`;
+      if (points === 10) {
+        tada.play();
+      }
     }
 
     function createFlyer() {
@@ -122,7 +129,7 @@
       document.body.appendChild(flyer);
 
       let top = -50;
-      const speed = 0.8 + Math.random() * 0.8; // быстрее
+      const speed = 0.8 + Math.random() * 0.8;
 
       const move = setInterval(() => {
         top += speed;
