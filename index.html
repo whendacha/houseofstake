@@ -19,9 +19,14 @@
     .flyer {
       position: absolute;
       top: -50px;
-      font-size: 30px;
+      font-size: 20px;
+      font-weight: bold;
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 4px;
       cursor: pointer;
       user-select: none;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
     }
   </style>
 </head>
@@ -93,13 +98,13 @@
     function createFlyer() {
       const flyer = document.createElement('div');
       flyer.className = 'flyer';
-      flyer.innerText = '✈️'; // символ полёта/перелёта
-      flyer.style.left = Math.random() * window.innerWidth + 'px';
+      flyer.innerText = 'Cannes';
+      flyer.style.left = Math.random() * (window.innerWidth - 60) + 'px';
 
       document.body.appendChild(flyer);
 
       let top = -50;
-      const speed = 1 + Math.random() * 2;
+      const speed = 0.3 + Math.random() * 0.5; // медленнее
 
       const move = setInterval(() => {
         top += speed;
@@ -116,7 +121,7 @@
       };
     }
 
-    setInterval(createFlyer, 1500); // каждые 1.5 сек новое ✈️
+    setInterval(createFlyer, 2000); // каждые 2 сек новое Cannes
   </script>
 </body>
 </html>
