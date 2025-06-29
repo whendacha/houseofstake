@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>NEAR Governance Cost Timer</title>
+  <title>NEAR Governance WatchFrog Counter</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -35,17 +35,21 @@
       const seconds = Math.floor((diff / 1000) % 60);
 
       document.getElementById('timePassed').innerText = 
-        `Time Passed Since April 1, 2024: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        `⏳ Time Passed Since the NEAR Foundation announced New Governance but not yet launched: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
 
       // Money spent
-      const monthsMain = (now - startDate) / (1000 * 60 * 60 * 24 * 30.44);
-      const monthsJan2025 = now > jan2025 ? (now - jan2025) / (1000 * 60 * 60 * 24 * 30.44) : 0;
-      const monthsMay2025 = now > may2025 ? (now - may2025) / (1000 * 60 * 60 * 24 * 30.44) : 0;
+      const monthMS = 1000 * 60 * 60 * 24 * 30.44; // average month in ms
+      const monthsMain = (now - startDate) / monthMS;
+      const monthsJan2025 = now > jan2025 ? (now - jan2025) / monthMS : 0;
+      const monthsMay2025 = now > may2025 ? (now - may2025) / monthMS : 0;
 
-      const total = (monthsMain * 66000) + (monthsJan2025 * 25000) + (monthsMay2025 * 1500);
+      const total = (monthsMain * 66000) + (monthsJan2025 * 25000) + (monthsMay2025 * 15000);
+
+      // Add thousands separator
+      const totalFormatted = total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
       document.getElementById('moneySpent').innerText = 
-        `Estimated Money Spent: $${total.toFixed(2)} USD`;
+        `💸 Money Already Burned While Governance Is Still Not Launched: $${totalFormatted} USD`;
     }
 
     updateCounter();
