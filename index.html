@@ -33,6 +33,19 @@
       font-size: 1.2em;
       font-weight: bold;
     }
+    .bee {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      font-size: 24px;
+      background: #f1c40f;
+      color: #000;
+      padding: 6px 10px;
+      border-radius: 50px;
+      font-weight: bold;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -73,6 +86,9 @@
   <!-- Sound -->
   <audio id="tada-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_b82f7a7e40.mp3" preload="auto"></audio>
 
+  <!-- Bee -->
+  <div class="bee" id="bee">🐝 Gauntlet</div>
+
   <script>
     function updateCounter() {
       const startDate = new Date('2024-04-01T00:00:00Z');
@@ -85,9 +101,10 @@
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
+      const ms = now.getMilliseconds();
 
       document.getElementById('timePassed').innerText = 
-        `⏳ Time Passed Since the NEAR Foundation announced New Governance but not yet launched: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        `⏳ Time Passed Since the NEAR Foundation announced New Governance but not yet launched: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds, ${ms} ms`;
 
       const monthMS = 1000 * 60 * 60 * 24 * 30.44;
       const monthsMain = (now - startDate) / monthMS;
@@ -102,7 +119,7 @@
     }
 
     updateCounter();
-    setInterval(updateCounter, 1000);
+    setInterval(updateCounter, 50);
 
     const words = ["Cannes", "Gauntlet", "Roadmap", "Good Progress", "Launching Soon"];
     const colors = ["#e74c3c", "#2ecc71", "#3498db", "#f39c12", "#9b59b6"];
@@ -150,6 +167,20 @@
 
     updatePoints();
     setInterval(createFlyer, 1500);
+
+    // Bee movement
+    const bee = document.getElementById('bee');
+    let beeX = 0;
+    let beeDir = 1;
+    function moveBee() {
+      beeX += 2 * beeDir;
+      if (beeX > window.innerWidth - 120 || beeX < 0) {
+        beeDir *= -1;
+      }
+      bee.style.left = beeX + 'px';
+      bee.style.top = 80 + Math.sin(beeX / 50) * 30 + 'px';
+    }
+    setInterval(moveBee, 30);
   </script>
 </body>
 </html>
