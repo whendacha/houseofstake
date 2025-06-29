@@ -46,6 +46,7 @@
       font-weight: bold;
       box-shadow: 0 0 8px rgba(0,0,0,0.4);
       white-space: nowrap;
+      transition: transform 0.5s ease, opacity 0.5s ease;
     }
     #theme-toggle {
       position: fixed;
@@ -165,7 +166,7 @@
       document.body.appendChild(flyer);
 
       let top = -50;
-      const speed = 0.3 + Math.random() * 0.4; // медленнее!
+      const speed = 0.3 + Math.random() * 0.4;
 
       const move = setInterval(() => {
         top += speed;
@@ -185,7 +186,7 @@
     }
 
     updatePoints();
-    setInterval(createFlyer, 1200);
+    setInterval(createFlyer, 2500); // РЕДКО ПАДАЮТ!
 
     const bee = document.getElementById('bee');
     let beeX = 0;
@@ -199,6 +200,12 @@
       bee.style.top = 80 + Math.sin(beeX / 50) * 30 + 'px';
     }
     setInterval(moveBee, 30);
+
+    bee.onclick = () => {
+      bee.style.transform = 'translateX(200%) rotate(720deg)';
+      bee.style.opacity = '0';
+      setTimeout(() => bee.remove(), 500);
+    };
 
     const toggle = document.getElementById('theme-toggle');
     toggle.onclick = () => {
