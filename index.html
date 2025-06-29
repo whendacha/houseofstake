@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NEAR Governance Cost Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      line-height: 1.5;
+    }
+    .counter {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>NEAR Governance WatchFrog Counter</h2>
+  <div class="counter" id="timePassed"></div>
+  <div class="counter" id="moneySpent"></div>
+
+  <script>
+    function updateCounter() {
+      const startDate = new Date('2024-04-01T00:00:00Z');
+      const jan2025 = new Date('2025-01-01T00:00:00Z');
+      const may2025 = new Date('2025-05-01T00:00:00Z');
+      const now = new Date();
+
+      // Time diff
+      const diff = now - startDate;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('timePassed').innerText = 
+        `Time Passed Since April 1, 2024: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+
+      // Money spent
+      const monthsMain = (now - startDate) / (1000 * 60 * 60 * 24 * 30.44);
+      const monthsJan2025 = now > jan2025 ? (now - jan2025) / (1000 * 60 * 60 * 24 * 30.44) : 0;
+      const monthsMay2025 = now > may2025 ? (now - may2025) / (1000 * 60 * 60 * 24 * 30.44) : 0;
+
+      const total = (monthsMain * 66000) + (monthsJan2025 * 25000) + (monthsMay2025 * 1500);
+
+      document.getElementById('moneySpent').innerText = 
+        `Estimated Money Spent: $${total.toFixed(2)} USD`;
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+  </script>
+</body>
+</html>
