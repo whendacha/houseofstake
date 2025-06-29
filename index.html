@@ -11,6 +11,7 @@
       max-width: 800px;
       margin: 20px auto;
       overflow: hidden;
+      transition: background 0.3s, color 0.3s;
     }
     .counter {
       font-size: 1.2em;
@@ -46,10 +47,28 @@
       box-shadow: 0 0 8px rgba(0,0,0,0.4);
       white-space: nowrap;
     }
+    #theme-toggle {
+      margin: 15px 0;
+      padding: 8px 12px;
+      background: #ddd;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    body.dark {
+      background: #111;
+      color: #eee;
+    }
+    body.dark .flyer {
+      box-shadow: 0 0 5px rgba(255,255,255,0.3);
+    }
   </style>
 </head>
 <body>
   <h2>NEAR Governance WatchFrog Counter</h2>
+  <button id="theme-toggle">Switch Theme</button>
+
   <div class="counter" id="timePassed"></div>
   <div class="counter" id="moneySpent"></div>
 
@@ -80,8 +99,7 @@
   <!-- TradingView Widget END -->
 
   <div id="points">Points: 0</div>
-  <p style="font-size: 1em; color: #777;">🥳 Get 10 points and you’ll hear a ta-da! (and still get absolutely nothing!)</p>
-  <p style="font-size: 1em; color: #777;">🏧 Fun fact: This page works like a DAO ATM — money goes out, but you can't withdraw anything back! 💸</p>
+  <p style="font-size: 1em; color: #777;">🎮 Rules: Click on the falling words to earn points. Reach 10 points and hear a Ta-da! (and still get absolutely nothing!)</p>
 
   <!-- Sound -->
   <audio id="tada-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_b82f7a7e40.mp3" preload="auto"></audio>
@@ -121,6 +139,7 @@
     updateCounter();
     setInterval(updateCounter, 50);
 
+    // Smaller list of words
     const words = ["Cannes", "Gauntlet", "Roadmap", "Good Progress", "Launching Soon"];
     const colors = ["#e74c3c", "#2ecc71", "#3498db", "#f39c12", "#9b59b6"];
 
@@ -146,7 +165,7 @@
       document.body.appendChild(flyer);
 
       let top = -50;
-      const speed = 0.8 + Math.random() * 0.8;
+      const speed = 1 + Math.random() * 1;
 
       const move = setInterval(() => {
         top += speed;
@@ -166,9 +185,8 @@
     }
 
     updatePoints();
-    setInterval(createFlyer, 1500);
+    setInterval(createFlyer, 1200);
 
-    // Bee movement
     const bee = document.getElementById('bee');
     let beeX = 0;
     let beeDir = 1;
@@ -181,6 +199,11 @@
       bee.style.top = 80 + Math.sin(beeX / 50) * 30 + 'px';
     }
     setInterval(moveBee, 30);
+
+    const toggle = document.getElementById('theme-toggle');
+    toggle.onclick = () => {
+      document.body.classList.toggle('dark');
+    };
   </script>
 </body>
 </html>
