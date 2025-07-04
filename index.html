@@ -17,37 +17,6 @@
       font-size: 1.2em;
       margin: 10px 0;
     }
-    .flyer {
-      position: absolute;
-      top: -50px;
-      font-size: 18px;
-      font-weight: bold;
-      background: #f5f5f5;
-      padding: 4px 8px;
-      border-radius: 5px;
-      cursor: pointer;
-      user-select: none;
-      box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    }
-    #points {
-      margin-top: 20px;
-      font-size: 1.2em;
-      font-weight: bold;
-    }
-    .bee {
-      position: absolute;
-      top: 50px;
-      left: 0;
-      font-size: 24px;
-      background: #f1c40f;
-      color: #000;
-      padding: 6px 10px;
-      border-radius: 50px;
-      font-weight: bold;
-      box-shadow: 0 0 8px rgba(0,0,0,0.4);
-      white-space: nowrap;
-      transition: transform 0.5s ease, opacity 0.5s ease;
-    }
     #theme-toggle {
       position: fixed;
       top: 20px;
@@ -60,30 +29,6 @@
     body.dark {
       background: #111;
       color: #eee;
-    }
-    body.dark .flyer {
-      box-shadow: 0 0 5px rgba(255,255,255,0.3);
-    }
-    .ticker {
-      width: 100%;
-      overflow: hidden;
-      background: #f9f9f9;
-      color: #555;
-      font-weight: bold;
-      padding: 10px 0;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-    }
-    .ticker-content {
-      display: inline-block;
-      padding-left: 100%;
-      animation: ticker 20s linear infinite;
-      white-space: nowrap;
-    }
-    @keyframes ticker {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-100%); }
     }
   </style>
 </head>
@@ -121,19 +66,6 @@
   </div>
   <!-- TradingView Widget END -->
 
-  <div id="points">Points: 0</div>
-  <p style="font-size: 1em; color: #777;">🎮 Rules: Click on the falling words to earn points — and get nothing!</p>
-
-  <!-- Bee -->
-  <div class="bee" id="bee">🐝 Gauntlet</div>
-
-  <!-- GOOD PROGRESS TICKER -->
-  <div class="ticker">
-    <div class="ticker-content">
-      ✅ Good Progress • ✅ Positive Updates • ✅ Everything is on track • ✅ More Good Progress • ✅ Steady Progress Mode • ✅ Unstoppable Progress Vibes • ✅ 101% Progress Confirmed • ✅ Progress is Progress!
-    </div>
-  </div>
-
   <script>
     function updateCounter() {
       const startDate = new Date('2024-04-01T00:00:00Z');
@@ -165,74 +97,6 @@
 
     updateCounter();
     setInterval(updateCounter, 50);
-
-    const words = ["Cannes", "Gauntlet", "Roadmap", "Good Progress", "Launching Soon"];
-    const colors = ["#e74c3c", "#2ecc71", "#3498db", "#f39c12", "#9b59b6"];
-
-    let points = 0;
-
-    function updatePoints() {
-      document.getElementById('points').innerText = `Points: ${points}`;
-    }
-
-    function createFlyer() {
-      const flyer = document.createElement('div');
-      flyer.className = 'flyer';
-      flyer.innerText = words[Math.floor(Math.random() * words.length)];
-      flyer.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-
-      flyer.style.background = colors[Math.floor(Math.random() * colors.length)];
-      flyer.style.color = "#fff";
-
-      document.body.appendChild(flyer);
-
-      let top = -50;
-      const speed = 0.3 + Math.random() * 0.4;
-
-      const move = setInterval(() => {
-        top += speed;
-        flyer.style.top = top + 'px';
-        if (top > window.innerHeight) {
-          flyer.remove();
-          clearInterval(move);
-        }
-      }, 20);
-
-      flyer.onclick = () => {
-        points += 1;
-        updatePoints();
-        flyer.remove();
-        clearInterval(move);
-      };
-    }
-
-    updatePoints();
-    setInterval(createFlyer, 2500);
-
-    const bee = document.getElementById('bee');
-    let beeX = 0;
-    let beeDir = 1;
-
-    function moveBee() {
-      beeX += 2 * beeDir;
-      if (beeX > window.innerWidth - 120 || beeX < 0) {
-        beeDir *= -1;
-      }
-      bee.style.left = beeX + 'px';
-      bee.style.top = 80 + Math.sin(beeX / 50) * 30 + 'px';
-    }
-    setInterval(moveBee, 30);
-
-    bee.onclick = () => {
-      bee.style.transform = 'translateX(200%) rotate(720deg)';
-      bee.style.opacity = '0';
-      bee.style.pointerEvents = 'none';
-      setTimeout(() => {
-        bee.style.transform = '';
-        bee.style.opacity = '1';
-        bee.style.pointerEvents = 'auto';
-      }, 10000);
-    };
 
     const toggle = document.getElementById('theme-toggle');
     toggle.onclick = () => {
